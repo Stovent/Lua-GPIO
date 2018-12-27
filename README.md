@@ -11,5 +11,5 @@ To change location and name, open `Makefile` and set the `targetPath` and `outpu
 load the library with `package.loadlib("/usr/lib/libLua-GPIO.so", "luaopen_luagpio")`. Functions will be accessible with `luagpio.<function name>()`.
 
 # Docs
-`initPin(pinNumber, "mode")`: Set pin <pinNumber> to either input or output. If <mode> = "output", pin will be an output. Any other value value will set the pin to input. \
-`setPin(pinNumber, value)`: If <value> = 0, switch pin <pinNumber> off. Any other value swtich pin <pinNumber> on.
+`initPin(pinNumber, "mode")`: Set pin to either input or output. If `mode` = "output", pin will be an output. Any other value value will set the pin to input. \
+`setPin(pinNumber, value)`: If `value` = 0, switch pin off. Any other value swtich pin <pinNumber> on.
