@@ -34,8 +34,9 @@ static void initLib()
 }
 
 static const struct luaL_Reg luagpio[] = {
-    {"setPin", setPin},
     {"initPin", initPin},
+    {"setPin", setPin},
+    {"getPin", getPin},
     {NULL, NULL}
 };
 
