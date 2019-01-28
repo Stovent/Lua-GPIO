@@ -8,5 +8,6 @@
 
 int initPin(lua_State* L);
 int setPin(lua_State* L);
+int getInt(lua_State* L);
 
 #endif // PINS_H

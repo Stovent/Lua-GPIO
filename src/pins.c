@@ -40,6 +40,14 @@ const int clr[] = {
 
 const int* clrShift = setShift;
 
+const int lvl[] = {
+    13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+    13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
+    14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14
+};
+
+const int* lvlShift = setShift;
+
 int initPin(lua_State* L)
 {
     int pin = lua_tonumber(L, 1);
@@ -77,4 +85,19 @@ int setPin(lua_State* L)
     }
 
     return 0;
+}
+
+int getPin(lua_State* L)
+{
+    int pin = lua_tonumber(L, 1);
+    int value;
+
+    if(*(gpio + lvl[pin]) & (1 << lvlShift[pin]))
+        value = 1;
+    else
+        value = 0;
+
+    lua_pushnumber(L, value);
+    printf("Get pin %d, value %d\n", pin, value);
+    return 1;
 }
