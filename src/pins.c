@@ -1,3 +1,7 @@
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "pins.h"
 
 extern uint32_t* gpio;
@@ -50,10 +54,11 @@ const int* lvlShift = setShift;
 
 int initPin(lua_State* L)
 {
-    int pin = lua_tonumber(L, 1);
+    int pin = lua_toboolean(L, 1);
     const char* func = lua_tostring(L, 2);
 
     *(gpio + fsel[pin]) &= ~(1 << fselShift[pin]);
+
     if(strcmp(func, "output") == 0)
     {
         *(gpio + fsel[pin]) |= (1 << fselShift[pin]);
@@ -62,16 +67,18 @@ int initPin(lua_State* L)
     {
         *(gpio + fsel[pin]) |= (0 << fselShift[pin]);
     }
-    printf("Pin %d set to %s\n", pin, func);
+
+    fprintf(stdout, "Pin %d set to %s\n", pin, func);
+
     return 0;
 }
 
 int setPin(lua_State* L)
 {
-    int pin = lua_tonumber(L, 1);
-    int val = lua_tonumber(L, 2);
+    int pin = lua_toboolean(L, 1);
+    int val = lua_toboolean(L, 2);
 
-    printf("Requested pin %d to be at value %d\n", pin, val);
+    fprintf(stdout, "Requested pin %d to be at value %d\n", pin, val);
 
     if(val)
     {
@@ -97,7 +104,9 @@ int getPin(lua_State* L)
     else
         value = 0;
 
-    lua_pushnumber(L, value);
-    printf("Get pin %d, value %d\n", pin, value);
+    lua_pushboolean(L, value);
+
+    fprintf(stdout, "Get pin %d, value %d\n", pin, value);
+
     return 1;
 }
