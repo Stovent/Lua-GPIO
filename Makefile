@@ -1,6 +1,6 @@
 CC = gcc
-CCFLAGS = -Wall -Wextra -O3
-LINKERFLAGS = -fpic -shared
+CCFLAGS = -Wall -Wextra -fPIC -O3
+LINKERFLAGS = -shared
 
 LUAINC = /usr/include/lua5.1
 
@@ -15,14 +15,13 @@ objs = $(obj)/lua-gpio.o $(obj)/pins.o
 .PHONY: dir
 .PHONY: install
 
-libLua-gpio: dir
+$(libName): dir
 	$(CC) $(CCFLAGS) -I$(LUAINC) -c src/lua-gpio.c -o $(obj)/lua-gpio.o
 	$(CC) $(CCFLAGS) -I$(LUAINC) -c src/pins.c -o $(obj)/pins.o
-	$(CC) $(LINKERFLAGS) -llua5.1 $(objs) -o $(bin)/$(libName)
+	$(CC) $(LINKERFLAGS) $(objs) -o $(bin)/$@
 
 dir:
-	mkdir -p bin
-	mkdir -p bin/obj
+	mkdir -p $(obj)
 
 clean:
 	rm $(obj)/lua-gpio.o
