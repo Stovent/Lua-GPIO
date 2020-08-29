@@ -68,7 +68,7 @@ int initPin(lua_State* L)
         *(gpio + fsel[pin]) |= (0 << fselShift[pin]); // input
     }
 
-    fprintf(stdout, "Pin %d set to %s\n", pin, func);
+    fprintf(stdout, "Pin %d set to %s\n", pin, func ? "output" : "input");
 
     return 0;
 }
