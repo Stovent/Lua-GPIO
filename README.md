@@ -19,5 +19,5 @@ load the library with `package.loadlib("/usr/lib/libLua-GPIO.so", "luaopen_luagp
 The pin numbers are the BCM numbers. Check `https://pinout.xyz/` for number reference
 
 # Docs
-`initPin(pinNumber, "mode")`: Set pin to either input or output. If `mode` = "output", pin will be an output. Any other value value will set the pin to input. \
+`initPin(pinNumber, mode)`: Set pin to either input or output. If `mode` = 0, pin will be an input. Any other value value will set the pin to output. \
 `setPin(pinNumber, value)`: If `value` = 0, switch pin off. Any other value switch pin <pinNumber> on.
