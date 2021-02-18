@@ -1,49 +1,56 @@
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-#include <sys/mman.h>
-#include <string.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <stdio.h>
 
-#include "pins.h"
+#include "gpio.h"
 
-#define PERIPHERALS_BASE_ADDR 0x20200000
-
-uint32_t* gpio;
-
-static bool initLib()
+static int initPin(lua_State* L)
 {
-    int fd;
-    if((fd = open("/dev/gpiomem", O_RDWR | O_SYNC | O_CLOEXEC)) < 0)
-    {
-        fprintf(stderr, "Could not open /dev/gpiomem: %s\n", strerror(errno));
-        return false;
-    }
+    const int pin = lua_tointeger(L, 1);
+    const int func = lua_toboolean(L, 2);
 
-    if((gpio = (uint32_t*)mmap(0, 0xA0, PROT_READ | PROT_WRITE, MAP_SHARED, fd, PERIPHERALS_BASE_ADDR)) == MAP_FAILED)
-    {
-        fprintf(stderr, "Could not map gpio memory: %s\n", strerror(errno));
-        return false;
-    }
+    gpio_init_pin(pin, func);
 
-    fputs("Lua-GPIO initialized", stdout);
-    return true;
+    fprintf(stdout, "initPin(pin: %d, func: %d)\n", pin, func);
+
+    return 0;
+}
+
+static int setPin(lua_State* L)
+{
+    const int pin = lua_tointeger(L, 1);
+    const int val = lua_toboolean(L, 2);
+
+    gpio_set_pin(pin, val);
+
+    fprintf(stdout, "setPin(pin: %d, val: %d)\n", pin, val);
+
+    return 0;
+}
+
+static int getPin(lua_State* L)
+{
+    const int pin = lua_tointeger(L, 1);
+
+    const int value = gpio_get_pin(pin);
+
+    lua_pushboolean(L, value);
+
+    fprintf(stdout, "getPin(pin: %d): %d\n", pin, value);
+
+    return 1;
 }
 
 static const struct luaL_Reg luagpio[] = {
     {"initPin", initPin},
     {"setPin", setPin},
     {"getPin", getPin},
-    {NULL, NULL}
+    {NULL, NULL},
 };
 
 int luaopen_luagpio(lua_State* L)
 {
-    if(initLib())
+    if(gpio_init())
     {
         luaL_openlib(L, "luagpio", luagpio, 0);
     }

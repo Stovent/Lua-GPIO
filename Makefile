@@ -1,5 +1,5 @@
 CC = gcc
-CCFLAGS = -Wall -Wextra -fPIC -O3
+CCFLAGS = -Wall -Wextra -fPIC -O3 -std=gnu99
 LINKERFLAGS = -shared
 
 LUAINC = /usr/include/lua5.1
@@ -9,24 +9,28 @@ libName = libLua-GPIO.so
 
 bin = bin
 obj = $(bin)/obj
-objs = $(obj)/lua-gpio.o $(obj)/pins.o
+objs = $(obj)/lua-gpio.o $(obj)/gpio.o
 
 .PHONY: clean
 .PHONY: dir
 .PHONY: install
+.PHONY: remove
 
 $(libName): dir
 	$(CC) $(CCFLAGS) -I$(LUAINC) -c src/lua-gpio.c -o $(obj)/lua-gpio.o
-	$(CC) $(CCFLAGS) -I$(LUAINC) -c src/pins.c -o $(obj)/pins.o
+	$(CC) $(CCFLAGS) -I$(LUAINC) -c src/gpio.c -o $(obj)/gpio.o
 	$(CC) $(LINKERFLAGS) $(objs) -o $(bin)/$@
+
+clean:
+	rm $(obj)/lua-gpio.o
+	rm $(obj)/gpio.o
+	rm $(bin)/$(libName)
 
 dir:
 	mkdir -p $(obj)
 
-clean:
-	rm $(obj)/lua-gpio.o
-	rm $(obj)/pins.o
-	rm $(bin)/$(libName)
-
 install:
 	cp $(bin)/$(libName) $(installDir)/$(libName)
+
+remove:
+	rm $(installDir)/$(libName)
