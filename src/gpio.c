@@ -1,11 +1,11 @@
+#include "gpio.h"
+
 #include <sys/mman.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
-
-#include "gpio.h"
 
 #define PERIPHERALS_BASE_ADDR (0x20200000)
 #define MAP_SIZE (0xA0)
@@ -19,7 +19,7 @@ static const int fselShift[] = {
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27,
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27,
     0, 3, 6, 9, 12, 15, 18, 21, 24, 27,
-    0, 3, 6, 9, 12, 15, 18, 21, 24, 27,
+    0, 3, 6, 9,
 };
 
 static const int fsel[] = {
@@ -28,7 +28,7 @@ static const int fsel[] = {
     2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
     4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-    5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+    5, 5, 5, 5,
 };
 
 static const int set[] = {
@@ -46,14 +46,14 @@ static const int clr[] = {
     11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
 };
 
-static const int* clrShift = setShift;
+static const int* const clrShift = setShift;
 
 static const int lvl[] = {
     13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13, 13,
     14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14,
 };
 
-static const int* lvlShift = setShift;
+static const int* const lvlShift = setShift;
 
 bool gpio_init()
 {
@@ -90,15 +90,9 @@ void gpio_init_pin(const uint8_t pin, const bool output)
 void gpio_set_pin(const uint8_t pin, const bool value)
 {
     if(value)
-    {
-        *(gpio + set[pin]) &= ~(1 << setShift[pin]);
         *(gpio + set[pin]) |=  (1 << setShift[pin]);
-    }
     else
-    {
-        *(gpio + clr[pin]) &= ~(1 << clrShift[pin]);
         *(gpio + clr[pin]) |=  (1 << clrShift[pin]);
-    }
 
     fprintf(stdout, "Set pin %d to value %d\n", pin, value);
 }

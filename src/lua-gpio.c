@@ -6,8 +6,8 @@
 
 static int initPin(lua_State* L)
 {
-    const int pin = lua_tointeger(L, 1);
-    const int func = lua_toboolean(L, 2);
+    const int pin = lua_tointeger(L, -2);
+    const int func = lua_toboolean(L, -1);
 
     gpio_init_pin(pin, func);
 
@@ -18,8 +18,8 @@ static int initPin(lua_State* L)
 
 static int setPin(lua_State* L)
 {
-    const int pin = lua_tointeger(L, 1);
-    const int val = lua_toboolean(L, 2);
+    const int pin = lua_tointeger(L, -2);
+    const int val = lua_toboolean(L, -1);
 
     gpio_set_pin(pin, val);
 
@@ -30,7 +30,7 @@ static int setPin(lua_State* L)
 
 static int getPin(lua_State* L)
 {
-    const int pin = lua_tointeger(L, 1);
+    const int pin = lua_tointeger(L, -1);
 
     const int value = gpio_get_pin(pin);
 

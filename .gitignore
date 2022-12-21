@@ -1,7 +1,9 @@
 /*
 
 !.gitignore
+!LICENSE
 !Makefile
+!README.md
 
 !/examples
 !/src
