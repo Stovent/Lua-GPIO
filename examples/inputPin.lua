@@ -1,6 +1,5 @@
  -- load the library. Functions are accessible via luagpio.<function name>()
-local lib = assert(package.loadlib("/usr/lib/libLua-GPIO.so", "luaopen_luagpio"))
-lib()
+luagpio = assert(package.loadlib("/usr/local/lib/libLua-GPIO.so", "luaopen_luagpio"))()
 
 luagpio.initPin(27, false) -- set the pin to input
 

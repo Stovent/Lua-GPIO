@@ -7,7 +7,9 @@ It only works on Raspberry Pi with the Raspberry Pi OS (Raspbian).
 
 ## Install
 Clone the repo with `git clone https://github.com/Stovent/Lua-GPIO`.
-Go into the the folder and install the dependencies with `sudo apt install liblua5.1-0-dev`.
+
+Go into the the folder and install the dependencies with `sudo apt install liblua5.2-dev`.
+The minimal supported Lua version is 5.2.
 
 Compile and install the library with
 ```sh
@@ -15,11 +17,16 @@ make
 sudo make install
 ```
 
-The library will be installed at `/usr/lib/libLua-GPIO.so` by default.
+The library will be installed at `/usr/local/lib/libLua-GPIO.so` by default.
 To change the directory and name, open `Makefile` and set the `installDir` and `libName` variables respectively.
 
+Uninstall the library with
+```sh
+sudo make uninstall
+```
+
 ## How to use
-Load the library with `package.loadlib("/usr/lib/libLua-GPIO.so", "luaopen_luagpio")()`. Functions will be accessible with `luagpio.<function name>()`.
+Load the library with `luagpio = package.loadlib("/usr/local/lib/libLua-GPIO.so", "luaopen_luagpio")()`. Functions will be accessible with `luagpio.<function name>()`.
 
 The pin numbers are the BCM numbers. Check `https://pinout.xyz/` for number reference (GPIO 0-27).
 

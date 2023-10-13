@@ -69,7 +69,7 @@ bool gpio_init()
         return false;
     }
 
-    fputs("GPIO initialized\n", stdout);
+//    fputs("GPIO initialized\n", stdout);
     return true;
 }
 
@@ -84,7 +84,7 @@ void gpio_init_pin(const uint8_t pin, const bool output)
     *(gpio + fsel[pin]) &= ~(1 << fselShift[pin]);
     *(gpio + fsel[pin]) |= (output << fselShift[pin]);
 
-    fprintf(stdout, "Pin %d set to %s\n", pin, output ? "output" : "input");
+//    fprintf(stdout, "Pin %d set to %s\n", pin, output ? "output" : "input");
 }
 
 void gpio_set_pin(const uint8_t pin, const bool value)
@@ -94,14 +94,14 @@ void gpio_set_pin(const uint8_t pin, const bool value)
     else
         *(gpio + clr[pin]) |=  (1 << clrShift[pin]);
 
-    fprintf(stdout, "Set pin %d to value %d\n", pin, value);
+//    fprintf(stdout, "Set pin %d to value %d\n", pin, value);
 }
 
 bool gpio_get_pin(const uint8_t pin)
 {
     const bool value = *(gpio + lvl[pin]) & (1 << lvlShift[pin]);
 
-    fprintf(stdout, "Get pin %d at value %d\n", pin, value);
+//    fprintf(stdout, "Get pin %d at value %d\n", pin, value);
 
     return value;
 }
