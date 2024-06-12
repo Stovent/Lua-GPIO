@@ -1,9 +1,11 @@
 # Lua-GPIO
 A Lua library to use the GPIO pins of a Raspberry Pi.
 
-This library only supports setting the GPIO pins as input and output. It does not support the alternative functions yet (SPI, UART, ...).
+It only works on Raspberry Pi with Raspberry Pi OS (Raspbian).
 
-It only works on Raspberry Pi with the Raspberry Pi OS (Raspbian).
+This library only supports setting the GPIO pins as input and output, it does not support the alternative functions yet (SPI, UART, ...).
+
+It has been benchmarked on a Raspberry Pi 3 B and an oscilloscope, the GPIO C code reached 6Mhz toggles (pin on/pin off), and Lua code reached 1Mhz toggles.
 
 ## Install
 Clone the repo with `git clone https://github.com/Stovent/Lua-GPIO`.
